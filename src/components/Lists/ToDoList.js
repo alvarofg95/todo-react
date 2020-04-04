@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-export default () => (
-  <div>
-    <span>Hola</span>
-  </div>
+export default ({ data }) => (
+  <Fragment>
+    {data.map(note => (
+      <div>
+        <span>{note.title}</span>
+      </div>
+    ))}
+  </Fragment>
 );
