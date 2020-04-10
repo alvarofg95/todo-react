@@ -1,3 +1,8 @@
 import React from 'react';
 
-export default ({ textArea }) => (textArea ? <textArea /> : <input type="text" />);
+export default ({ name, placeholder, textArea, onChange }) =>
+  textArea ? (
+    <textarea name={name} placeholder={placeholder} onChange={onChange} />
+  ) : (
+    <input type="text" name={name} placeholder={placeholder} onChange={onChange} />
+  );
