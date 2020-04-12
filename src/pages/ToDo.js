@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import ToDoList from '../components/Lists/ToDoList';
-import AddToDo from '../components/buttons/CustomButton';
 import Modal from '../components/Modals/Modal';
 import CustomInput from '../components/inputs/CustomInput';
 import CustomButton from '../components/buttons/CustomButton';
 
-let array = [{ title: 'Nota 1' }, { title: 'Nota 2' }, { title: 'Nota 3' }];
-
 class ToDo extends Component {
-  state = {
-    data: [],
-    toDoData: null,
-    opened: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      title: null,
+      description: null,
+      opened: false,
+    };
+  }
+
+  componentDidMount() {
+    const storage = localStorage.getItem('myInfo');
+    console.log({ storage });
+    if (storage) {
+      const data = JSON.parse(storage);
+      this.setState({ data });
+    }
+  }
 
   handleModal = () => {
     this.setState((prevState) => ({ opened: !prevState.opened }));
@@ -20,24 +30,30 @@ class ToDo extends Component {
 
   handleChange = ({ target: { name, value } }) => {
     console.log({ name, value });
-    this.setState({ toDoData: { [name]: value } });
+    this.setState({ [name]: value });
   };
 
-  newToDo = () => {
-    console.log({ state: this.state });
-    const {
-      toDoData: { title, description },
-    } = this.state;
-    array.push({ title, description });
-    this.setState({ data: null });
+  saveData = () => {
+    this.setState(
+      (prevState) => {
+        const { data, title, description } = prevState;
+        const id = data.length + 1;
+        data.push({ id, title, description });
+        return { data, title: null, description: null, opened: false };
+      },
+      () => {
+        const { data } = this.state;
+        localStorage.setItem('myInfo', JSON.stringify(data));
+      }
+    );
   };
 
   render() {
-    const { opened } = this.state;
+    const { data, opened } = this.state;
     return (
       <div>
-        <AddToDo text="Add To Do" onClick={this.handleModal} />
-        <ToDoList data={array} />
+        <CustomButton text="Add To Do" onClick={this.handleModal} />
+        <ToDoList data={data} />
         <Modal opened={opened} onClose={this.handleModal}>
           <div>
             <CustomInput name="title" placeholder="Title" onChange={this.handleChange} />
@@ -50,7 +66,7 @@ class ToDo extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <CustomButton text="OK" onClick={this.newToDo} />
+          <CustomButton text="OK" onClick={this.saveData} />
           <CustomButton text="Cancel" onClick={this.handleModal} />
         </Modal>
       </div>
