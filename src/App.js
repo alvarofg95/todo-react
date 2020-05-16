@@ -1,10 +1,12 @@
 import React from 'react';
-import RouterControl from './components/router/RouterControl';
+import Menu from 'components/Menu/Menu';
+import Panel from 'components/Panel/Panel';
 
 function App() {
   return (
-    <div className="App">
-      <RouterControl />
+    <div id="container">
+      <Menu />
+      <Panel />
     </div>
   );
 }

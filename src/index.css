@@ -1,0 +1,22 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+#container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+#container > #menu {
+  width: 30%;
+  background-color: red;
+}
+
+#container > #panel {
+  width: 70%;
+  background-color: green;
+}
