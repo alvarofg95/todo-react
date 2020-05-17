@@ -9,6 +9,22 @@ const ToDo = (state = [], action) => {
           completed: false
         }
       ];
+    case 'SET_DONE': {
+      const prevState = [...state];
+      const taskIndex = prevState.findIndex((task) => task.id === action.id);
+      if (taskIndex > -1) {
+        prevState[taskIndex].completed = true;
+      }
+      return [...prevState];
+    }
+    case 'SET_TO_DO': {
+      const prevState = [...state];
+      const taskIndex = prevState.findIndex((task) => task.id === action.id);
+      if (taskIndex > -1) {
+        prevState[taskIndex].completed = false;
+      }
+      return [...prevState];
+    }
     default:
       return state;
   }
